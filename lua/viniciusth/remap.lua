@@ -44,3 +44,7 @@ vim.keymap.set("n", "<C-S-Up>", "<C-w>5+")
 vim.keymap.set("n", "<C-S-Down>", "<C-w>5-")
 vim.keymap.set("n", "<C-S-Left>", "<C-w>5>")
 vim.keymap.set("n", "<C-S-Right>", "<C-w>5<")
+
+-- terminal mode
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+
