@@ -3,6 +3,7 @@ vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 local viniciusth_fugitive = vim.api.nvim_create_augroup("viniciusth_fugitive", {})
 
 local autocmd = vim.api.nvim_create_autocmd
+vim.keymap.set("n", "<leader>o", "[[:GBrowse<CR>]]")
 autocmd("BufWinEnter", {
     group = viniciusth_fugitive,
     pattern = "*",
@@ -24,6 +25,7 @@ autocmd("BufWinEnter", {
 
         -- NOTE: It allows me to easily set the branch i am pushing and any tracking
         -- needed if i did not set the branch up correctly
-        vim.keymap.set("n", "<leader>t", ":Git push -u origin", opts);
+        vim.keymap.set("n", "<leader>t", ":Git push -u origin", opts)
+
     end,
 })

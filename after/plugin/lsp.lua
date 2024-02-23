@@ -1,4 +1,5 @@
 local lsp = require("lsp-zero")
+local lspconfig = require("lspconfig")
 
 lsp.preset("recommended")
 
@@ -7,6 +8,7 @@ lsp.ensure_installed({
   'rust_analyzer',
   'clangd',
   'pyright',
+  'typos_lsp',
 })
 
 -- Fix Undefined global 'vim'
@@ -45,13 +47,14 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("n", "gD", function() vim.lsp.buf.declaration() end, opts)
   vim.keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, opts)
   vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
+  vim.keymap.set("n", "gt", function() vim.lsp.buf.type_definition() end, opts)
 
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
   vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
   vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-  vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
+  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, opts)
+  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, opts)
+  vim.keymap.set({"n", "v"}, "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
   vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
@@ -75,3 +78,12 @@ lsp.setup()
 vim.diagnostic.config({
     virtual_text = true
 })
+
+
+lspconfig.typos_lsp.setup({
+    init_options = {
+        diagnosticSeverity = "Information",
+        logLevel = "Information",
+    }
+})
+
