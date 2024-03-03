@@ -41,22 +41,42 @@ return require('packer').startup(function(use)
     use {
         'numToStr/Comment.nvim',
         config = function()
-            require('Comment').setup {
-                ---LHS of toggle mappings in NORMAL mode
-                toggler = {
-                    ---Line-comment toggle keymap
-                    line = '<C-/>',
-                    ---Block-comment toggle keymap
-                    block = '<C-?>',
-                },
-                ---LHS of operator-pending mappings in NORMAL and VISUAL mode
-                opleader = {
-                    ---Line-comment keymap
-                    line = '<C-/>',
-                    ---Block-comment keymap
-                    block = '<C-?>',
-                },
-            }
+---@diagnostic disable-next-line: undefined-field
+            local sysname = vim.loop.os_uname().sysname
+            sysname = string.lower(sysname)
+            sysname = string.sub(sysname, 1, 3)
+            local is_windows = sysname == "win"
+            if is_windows then
+                require('Comment').setup {
+                    ---LHS of toggle mappings in NORMAL mode
+                    toggler = {
+                        ---Line-comment toggle keymap
+                        line = '<C-_>',
+                    },
+                    ---LHS of operator-pending mappings in NORMAL and VISUAL mode
+                    opleader = {
+                        ---Line-comment keymap
+                        line = '<C-_>',
+                    },
+                }
+            else
+                require('Comment').setup {
+                    ---LHS of toggle mappings in NORMAL mode
+                    toggler = {
+                        ---Line-comment toggle keymap
+                        line = '<C-/>',
+                        ---Block-comment toggle keymap
+                        block = '<C-?>',
+                    },
+                    ---LHS of operator-pending mappings in NORMAL and VISUAL mode
+                    opleader = {
+                        ---Line-comment keymap
+                        line = '<C-/>',
+                        ---Block-comment keymap
+                        block = '<C-?>',
+                    },
+                }
+            end
         end
     }
 
