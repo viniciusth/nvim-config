@@ -4,6 +4,19 @@ vim.opt.relativenumber = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
+local viniciusth_tabhack = vim.api.nvim_create_augroup("viniciusth_tabhack", {});
+local autocmd = vim.api.nvim_create_autocmd
+autocmd("BufEnter", {
+    group = viniciusth_tabhack,
+    pattern = "*.js,*.ts",
+    callback = function()
+        vim.opt.tabstop = 2
+        vim.opt.softtabstop = 2
+        vim.opt.shiftwidth = 2
+    end,
+
+})
+
 vim.opt.expandtab = true
 
 vim.opt.smartindent = true

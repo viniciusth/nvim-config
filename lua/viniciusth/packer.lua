@@ -38,6 +38,27 @@ return require('packer').startup(function(use)
     use("vim-test/vim-test")
     use("nvim-treesitter/nvim-treesitter-context")
     use("airblade/vim-gitgutter")
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup {
+                ---LHS of toggle mappings in NORMAL mode
+                toggler = {
+                    ---Line-comment toggle keymap
+                    line = '<C-/>',
+                    ---Block-comment toggle keymap
+                    block = '<C-?>',
+                },
+                ---LHS of operator-pending mappings in NORMAL and VISUAL mode
+                opleader = {
+                    ---Line-comment keymap
+                    line = '<C-/>',
+                    ---Block-comment keymap
+                    block = '<C-?>',
+                },
+            }
+        end
+    }
 
     use {
         'VonHeikemen/lsp-zero.nvim',
@@ -61,6 +82,12 @@ return require('packer').startup(function(use)
             { 'rafamadriz/friendly-snippets' },
         }
     }
+    use({
+        "stevearc/oil.nvim",
+        config = function()
+            require("oil").setup()
+        end,
+    })
 
     use("folke/zen-mode.nvim")
     use("github/copilot.vim")
