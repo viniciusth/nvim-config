@@ -38,6 +38,8 @@ return require('packer').startup(function(use)
     use("vim-test/vim-test")
     use("nvim-treesitter/nvim-treesitter-context")
     use("airblade/vim-gitgutter")
+    use('kristijanhusak/vim-carbon-now-sh')
+
     use {
         'numToStr/Comment.nvim',
         config = function()
