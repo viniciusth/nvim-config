@@ -13,14 +13,14 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set({"n", "v"}, "<leader>f", vim.lsp.buf.format)
+vim.keymap.set({ "n", "v" }, "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
@@ -29,6 +29,10 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/\0/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- open file under cursor in vertical/horizontal split
+vim.keymap.set("n", "gfs", "<cmd>split<CR>gF")
+vim.keymap.set("n", "gfv", "<cmd>vsplit<CR>gF")
 
 -- remap split navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h")
@@ -49,4 +53,3 @@ vim.keymap.set("n", "<C-q>", [[:q<CR>]])
 
 -- terminal mode
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
-

@@ -8,9 +8,15 @@ return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.5',
+        'nvim-telescope/telescope.nvim', tag = '0.1.6',
         -- or                            , branch = '0.1.x',
-        requires = { { 'nvim-lua/plenary.nvim' } }
+        requires = {
+            { 'nvim-lua/plenary.nvim' },
+            { "nvim-telescope/telescope-live-grep-args.nvim" },
+        },
+        config = function()
+            require("telescope").load_extension("live_grep_args")
+        end
     }
 
     use { 'morhetz/gruvbox' }
@@ -43,7 +49,7 @@ return require('packer').startup(function(use)
     use {
         'numToStr/Comment.nvim',
         config = function()
----@diagnostic disable-next-line: undefined-field
+            ---@diagnostic disable-next-line: undefined-field
             local sysname = vim.loop.os_uname().sysname
             sysname = string.lower(sysname)
             sysname = string.sub(sysname, 1, 3)
