@@ -20,6 +20,22 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
+-- override python format with black
+local viniciusth_ihatepython = vim.api.nvim_create_augroup("viniciusth_ihatepython", {})
+local autocmd = vim.api.nvim_create_autocmd
+autocmd("BufEnter", {
+    group = viniciusth_ihatepython,
+    pattern = "*.py",
+    callback = function()
+        local path = vim.api.nvim_buf_get_name(0)
+        vim.keymap.set({ "n", "v" }, "<leader>f", function()
+            vim.cmd("w")
+            vim.cmd("!black " .. path)
+            vim.cmd("e")
+        end)
+    end,
+})
 vim.keymap.set({ "n", "v" }, "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
