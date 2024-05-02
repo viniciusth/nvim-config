@@ -119,4 +119,11 @@ return require('packer').startup(function(use)
 
     use("folke/zen-mode.nvim")
     use("github/copilot.vim")
+
+    use {
+        "lervag/vimtex",
+        config = function()
+            vim.g.vimtex_view_method = "zathura"
+        end
+    }
 end)

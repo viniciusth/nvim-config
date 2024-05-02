@@ -30,9 +30,7 @@ autocmd("BufEnter", {
     callback = function()
         local path = vim.api.nvim_buf_get_name(0)
         vim.keymap.set({ "n", "v" }, "<leader>f", function()
-            vim.cmd("w")
-            vim.cmd("silent!black " .. path)
-            vim.cmd("e")
+            vim.cmd("silent !black " .. path)
         end)
     end,
 })
