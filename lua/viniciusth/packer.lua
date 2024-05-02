@@ -123,7 +123,18 @@ return require('packer').startup(function(use)
     use {
         "lervag/vimtex",
         config = function()
-            vim.g.vimtex_view_method = "zathura"
-        end
+            ---@diagnostic disable-next-line: undefined-field
+            local sysname = vim.loop.os_uname().sysname
+            sysname = string.lower(sysname)
+            sysname = string.sub(sysname, 1, 3)
+            local is_windows = sysname == "win"
+
+            if is_windows then
+                vim.g.vimtex_view_method = "general"
+                vim.g.vimtex_view_general_viewer = "sumatrapdf"
+            else
+                vim.g.vimtex_view_method = "zathura"
+            end
+        end,
     }
 end)
