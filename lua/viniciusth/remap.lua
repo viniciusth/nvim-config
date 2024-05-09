@@ -67,3 +67,17 @@ vim.keymap.set("n", "<C-q>", [[:q<CR>]])
 
 -- terminal mode
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+
+local viniciusth_iloveproto = vim.api.nvim_create_augroup("viniciusth_iloveproto", {})
+local autocmd = vim.api.nvim_create_autocmd
+autocmd("BufEnter", {
+    group = viniciusth_iloveproto,
+    pattern = "*.proto",
+    callback = function()
+        local path = vim.api.nvim_buf_get_name(0)
+        vim.keymap.set({ "n", "v" }, "<leader>f", function()
+            vim.cmd("silent !buf format -w " .. path)
+            vim.cmd("e!")
+        end)
+    end,
+})
