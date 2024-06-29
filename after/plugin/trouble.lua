@@ -1,8 +1,4 @@
-vim.keymap.set("n", "<leader>qf", "<cmd>TroubleToggle quickfix<cr>",
-  {silent = true, noremap = true}
-)
-
-vim.keymap.set("n", "<leader>we", "<cmd>TroubleToggle workspace_diagnostics<cr>",
+vim.keymap.set("n", "<leader>we", function () require("trouble").open("diagnostics") end,
   {silent = true, noremap = true}
 )
 

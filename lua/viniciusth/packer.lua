@@ -19,6 +19,7 @@ return require('packer').startup(function(use)
         end
     }
 
+    use { 'rose-pine/neovim' }
     use { 'morhetz/gruvbox' }
 
     use({
@@ -30,7 +31,6 @@ return require('packer').startup(function(use)
                 -- refer to the configuration section below
                 auto_preview = false,
                 auto_fold = true,
-                icons = false,
             }
         end
     })
@@ -113,7 +113,12 @@ return require('packer').startup(function(use)
     use({
         "stevearc/oil.nvim",
         config = function()
-            require("oil").setup()
+            require("oil").setup({
+                keymaps = {
+                    ["<C-h>"] = false,
+                    ["<C-l>"] = false,
+                },
+            })
         end,
     })
 
@@ -137,4 +142,12 @@ return require('packer').startup(function(use)
             end
         end,
     }
+
+    use({"j-hui/fidget.nvim",
+        config = function()
+            require("fidget").setup({})
+        end
+    })
+
+    use("joechrisellis/lsp-format-modifications.nvim")
 end)

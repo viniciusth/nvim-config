@@ -41,8 +41,9 @@ vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/\0/gI<Left><Left><Left>]])
-vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+-- doesnt work with multiline:
+vim.keymap.set("v", "<leader>s", "y:%s/<C-r>0/<C-r>0/gc<left><left><left>")
 
 -- open file under cursor in vertical/horizontal split
 vim.keymap.set("n", "gfs", "<cmd>split<CR>gF")
