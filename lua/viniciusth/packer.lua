@@ -19,6 +19,18 @@ return require('packer').startup(function(use)
         end
     }
 
+    -- use {
+    --     "~/personal/sweeper.nvim"
+    -- }
+
+    use "lukas-reineke/indent-blankline.nvim"
+    use 'echasnovski/mini.nvim'
+
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    }
+
     use { 'rose-pine/neovim' }
     use { 'morhetz/gruvbox' }
 
@@ -143,7 +155,8 @@ return require('packer').startup(function(use)
         end,
     }
 
-    use({"j-hui/fidget.nvim",
+    use({
+        "j-hui/fidget.nvim",
         config = function()
             require("fidget").setup({})
         end

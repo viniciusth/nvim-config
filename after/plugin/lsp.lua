@@ -1,13 +1,14 @@
 local lsp = require("lsp-zero")
 local lspconfig = require("lspconfig")
+local lsp_format_modifications = require("lsp-format-modifications")
 
 lsp.preset("recommended")
 
 lsp.ensure_installed({
-    'tsserver',
     'rust_analyzer',
     'pyright',
     'typos_lsp',
+    'gopls',
 })
 
 -- Fix Undefined global 'vim'
@@ -46,8 +47,12 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("n", "gv", function()
         vim.cmd('vs')
         vim.lsp.buf.definition()
-    end,
-    opts)
+    end, opts)
+    vim.keymap.set("n", "gs", function()
+        vim.cmd('sp')
+        vim.lsp.buf.definition()
+    end, opts)
+
     vim.keymap.set("n", "gD", function() vim.lsp.buf.declaration() end, opts)
     vim.keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, opts)
     vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
@@ -62,15 +67,19 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
+    vim.keymap.set("n", "<leader>fc", function()
+        lsp_format_modifications.format_modifications(client, bufnr)
+    end)
+
     vim.g.inlay_hints_visible = false
     vim.keymap.set("n", "<leader>ih", function()
         if vim.g.inlay_hints_visible then
             vim.g.inlay_hints_visible = false
-            vim.lsp.inlay_hint.enable(0, false)
+            vim.lsp.inlay_hint.enable(false)
         else
             if client.server_capabilities.inlayHintProvider then
                 vim.g.inlay_hints_visible = true
-                vim.lsp.inlay_hint.enable(0, true)
+                vim.lsp.inlay_hint.enable(true)
             else
                 print("no inlay hints available")
             end
@@ -78,12 +87,27 @@ lsp.on_attach(function(client, bufnr)
     end, opts)
 end)
 
+
 lsp.setup()
 
 vim.diagnostic.config({
     virtual_text = true
 })
 
+-- lspconfig.gopls.setup({
+--     settings = {
+--         gopls = {
+--             ["ui.inlayhint.hints"] = {
+--                 compositeLiteralFields = true,
+--                 constantValues = true,
+--                 parameterNames = true
+--             },
+--             gofumpt = true,
+--         },
+--     },
+-- })
+
+lspconfig.solargraph.setup({})
 
 lspconfig.typos_lsp.setup({
     init_options = {
@@ -91,3 +115,4 @@ lspconfig.typos_lsp.setup({
         logLevel = "Information",
     }
 })
+
