@@ -70,7 +70,6 @@ vim.keymap.set("n", "<C-q>", [[:q<CR>]])
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 
 local viniciusth_iloveproto = vim.api.nvim_create_augroup("viniciusth_iloveproto", {})
-local autocmd = vim.api.nvim_create_autocmd
 autocmd("BufEnter", {
     group = viniciusth_iloveproto,
     pattern = "*.proto",
@@ -80,5 +79,24 @@ autocmd("BufEnter", {
             vim.cmd("silent !buf format -w " .. path)
             vim.cmd("e!")
         end)
-    end,
+      end,
 })
+
+-- switch up some tabsizing
+vim.keymap.set("n", "<leader>th", function()
+    ---@diagnostic disable-next-line: undefined-field
+    local val = vim.opt.tabstop._value
+    vim.opt.tabstop = math.max(val - 2, 2)
+    ---@diagnostic disable-next-line: undefined-field
+    val = vim.opt.shiftwidth._value
+    vim.opt.shiftwidth = math.max(val - 2, 2)
+end)
+
+vim.keymap.set("n", "<leader>tl", function()
+    ---@diagnostic disable-next-line: undefined-field
+    local val = vim.opt.tabstop._value
+    vim.opt.tabstop = math.min(val + 2, 8)
+    ---@diagnostic disable-next-line: undefined-field
+    val = vim.opt.shiftwidth._value
+    vim.opt.shiftwidth = math.min(val + 2, 8)
+end)
