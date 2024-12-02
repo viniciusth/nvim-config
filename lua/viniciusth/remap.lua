@@ -100,3 +100,5 @@ vim.keymap.set("n", "<leader>tl", function()
     val = vim.opt.shiftwidth._value
     vim.opt.shiftwidth = math.min(val + 2, 8)
 end)
+
+vim.keymap.set("n", "<leader>gb", "<cmd>Git blame -w -C -C -C<CR>")
