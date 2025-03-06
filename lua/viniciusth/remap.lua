@@ -34,6 +34,20 @@ autocmd("BufEnter", {
         end)
     end,
 })
+
+-- override typescript format with prettier
+local viniciusth_ihatets = vim.api.nvim_create_augroup("viniciusth_ihatets", {})
+local autocmd = vim.api.nvim_create_autocmd
+autocmd("BufEnter", {
+    group = viniciusth_ihatets,
+    pattern = "*.ts",
+    callback = function()
+        local path = vim.api.nvim_buf_get_name(0)
+        vim.keymap.set({ "n", "v" }, "<leader>f", function()
+            vim.cmd("silent !yarn prettier --write " .. path)
+        end)
+    end,
+})
 vim.keymap.set({ "n", "v" }, "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
