@@ -163,4 +163,12 @@ return require('packer').startup(function(use)
     })
 
     use("joechrisellis/lsp-format-modifications.nvim")
+    use {
+        "danymat/neogen",
+        config = function()
+            require('neogen').setup {}
+        end,
+        -- Uncomment next line if you want to follow only stable versions
+        -- tag = "*"
+    }
 end)

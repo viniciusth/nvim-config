@@ -116,3 +116,6 @@ vim.keymap.set("n", "<leader>tl", function()
 end)
 
 vim.keymap.set("n", "<leader>gb", "<cmd>Git blame -w -C -C -C<CR>")
+vim.keymap.set("n", "<Leader>dof", "<cmd>Neogen func<CR>")
+vim.keymap.set("n", "<Leader>doc", "<cmd>Neogen class<CR>")
+vim.keymap.set("n", "<Leader>dot", "<cmd>Neogen type<CR>")
