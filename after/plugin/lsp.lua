@@ -8,6 +8,7 @@ lsp.ensure_installed({
     'rust_analyzer',
     'pyright',
     'typos_lsp',
+    'vtsls',
 })
 
 -- Fix Undefined global 'vim'
