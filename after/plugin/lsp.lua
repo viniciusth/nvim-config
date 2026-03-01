@@ -5,7 +5,7 @@ local lsp_format_modifications = require("lsp-format-modifications")
 lsp.preset("recommended")
 
 lsp.ensure_installed({
-    'rust_analyzer',
+    'clangd',
     'pyright',
     'typos_lsp',
     'vtsls',
@@ -107,6 +107,10 @@ vim.diagnostic.config({
 --     },
 -- })
 
+lspconfig.rust_analyzer.setup({
+    cmd = { vim.fn.expand("~/.cargo/bin/rust-analyzer") },
+})
+
 lspconfig.solargraph.setup({})
 
 lspconfig.typos_lsp.setup({
@@ -116,3 +120,6 @@ lspconfig.typos_lsp.setup({
     }
 })
 
+lspconfig.hls.setup{}
+
+lspconfig.zls.setup({})
