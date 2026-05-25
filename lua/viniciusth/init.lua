@@ -1,6 +1,5 @@
 require("viniciusth.remap")
 require("viniciusth.set")
-require("viniciusth.packer").compile()
 
 local augroup = vim.api.nvim_create_augroup
 local ThePrimeagenGroup = augroup('ThePrimeagen', {})
