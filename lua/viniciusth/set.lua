@@ -11,9 +11,9 @@ autocmd("BufEnter", {
     group = viniciusth_tabhack,
     pattern = "*.js,*.ts,*.tsx,*.jsx",
     callback = function()
-        vim.opt.tabstop = 2
-        vim.opt.softtabstop = 2
-        vim.opt.shiftwidth = 2
+        -- vim.opt.tabstop = 2
+        -- vim.opt.softtabstop = 2
+        -- vim.opt.shiftwidth = 2
     end,
 })
 

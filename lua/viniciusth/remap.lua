@@ -15,6 +15,12 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
+-- copy file path to clipboard
+vim.keymap.set("n", "<leader>yp", function()
+    local path = vim.fn.expand("%:p:.")
+    vim.fn.setreg("+", path)
+    print("Copied file path: " .. path)
+end)
 
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
@@ -37,14 +43,14 @@ autocmd("BufEnter", {
 
 -- override typescript format with prettier
 local viniciusth_ihatets = vim.api.nvim_create_augroup("viniciusth_ihatets", {})
-local autocmd = vim.api.nvim_create_autocmd
 autocmd("BufEnter", {
     group = viniciusth_ihatets,
-    pattern = "*.ts",
+    pattern = "*.ts,*.tsx,*.js,*.jsx",
     callback = function()
         local path = vim.api.nvim_buf_get_name(0)
         vim.keymap.set({ "n", "v" }, "<leader>f", function()
             vim.cmd("silent !yarn prettier --write " .. path)
+            vim.cmd("silent !pnpm prettier --write " .. path)
         end)
     end,
 })
@@ -68,21 +74,23 @@ vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
-vim.keymap.set("n", "<C-S-h>", "<C-w>H")
-vim.keymap.set("n", "<C-S-j>", "<C-w>J")
-vim.keymap.set("n", "<C-S-k>", "<C-w>K")
-vim.keymap.set("n", "<C-S-l>", "<C-w>L")
+vim.keymap.set("n", "<M-S-h>", "<C-w>H")
+vim.keymap.set("n", "<M-S-j>", "<C-w>J")
+vim.keymap.set("n", "<M-S-k>", "<C-w>K")
+vim.keymap.set("n", "<M-S-l>", "<C-w>L")
 -- resizing
-vim.keymap.set("n", "<C-S-Up>", "<C-w>5+")
-vim.keymap.set("n", "<C-S-Down>", "<C-w>5-")
-vim.keymap.set("n", "<C-S-Left>", "<C-w>5>")
-vim.keymap.set("n", "<C-S-Right>", "<C-w>5<")
+vim.keymap.set("n", "<M-S-Up>", "<C-w>5+")
+vim.keymap.set("n", "<M-S-Down>", "<C-w>5-")
+vim.keymap.set("n", "<M-S-Left>", "<C-w>5>")
+vim.keymap.set("n", "<M-S-Right>", "<C-w>5<")
+vim.keymap.set("n", "<leader>eq", "<C-w>=")
 
 vim.keymap.set("n", "<C-q>", [[:q<CR>]])
 
 -- terminal mode
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 
+-- proto formatting
 local viniciusth_iloveproto = vim.api.nvim_create_augroup("viniciusth_iloveproto", {})
 autocmd("BufEnter", {
     group = viniciusth_iloveproto,
@@ -93,7 +101,7 @@ autocmd("BufEnter", {
             vim.cmd("silent !buf format -w " .. path)
             vim.cmd("e!")
         end)
-      end,
+    end,
 })
 
 -- switch up some tabsizing
@@ -119,3 +127,15 @@ vim.keymap.set("n", "<leader>gb", "<cmd>Git blame -w -C -C -C<CR>")
 vim.keymap.set("n", "<Leader>dof", "<cmd>Neogen func<CR>")
 vim.keymap.set("n", "<Leader>doc", "<cmd>Neogen class<CR>")
 vim.keymap.set("n", "<Leader>dot", "<cmd>Neogen type<CR>")
+
+vim.keymap.set("n", "<leader>lc", "<cmd>VimtexCompile<CR>")
+
+vim.keymap.set("n", "<leader>lp", function()
+    local current_file = vim.fn.expand("%:p")
+    local output_file = vim.fn.expand("%:p:r") .. ".pdf"
+    local command = "pandoc " .. vim.fn.shellescape(current_file) .. " -o " .. vim.fn.shellescape(output_file) .. " && open " .. vim.fn.shellescape(output_file)
+    vim.fn.system(command)
+    print("Converted to PDF: " .. output_file)
+end)
+
+vim.keymap.set('i', '<C-.>', '<Plug>(copilot-suggest)')

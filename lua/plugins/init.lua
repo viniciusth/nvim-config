@@ -5,6 +5,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-live-grep-args.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     config = function()
       require("telescope").load_extension("live_grep_args")
@@ -74,23 +75,19 @@ return {
     end,
   },
 
-  {
-    "VonHeikemen/lsp-zero.nvim",
-    branch = "v1.x",
-    dependencies = {
-      { "neovim/nvim-lspconfig", tag = "v2.5.0" },
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "hrsh7th/nvim-cmp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lua",
-      "L3MON4D3/LuaSnip",
-      "rafamadriz/friendly-snippets",
-    },
-  },
+  -- LSP, completion and tooling (native mason-lspconfig setup; configured in after/plugin/lsp.lua)
+  { "neovim/nvim-lspconfig", tag = "v2.5.0" },
+  "williamboman/mason.nvim",
+  "williamboman/mason-lspconfig.nvim",
+  "hrsh7th/nvim-cmp",
+  "hrsh7th/cmp-buffer",
+  "hrsh7th/cmp-path",
+  "saadparwaiz1/cmp_luasnip",
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-nvim-lua",
+  "L3MON4D3/LuaSnip",
+  "rafamadriz/friendly-snippets",
+  "marilari88/twoslash-queries.nvim",
 
   {
     "stevearc/oil.nvim",

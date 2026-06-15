@@ -1,4 +1,3 @@
-
 local colors = { "rose-pine-main", "gruvbox" }
 local selected = 1
 
