@@ -1,7 +1,9 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
-    version = "0.1.6",
+    -- master (not a tag): 0.1.8 still calls the removed `ft_to_lang`,
+    -- which breaks previews on Neovim 0.12. The fix only landed on master.
+    branch = "master",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-live-grep-args.nvim",
@@ -47,12 +49,34 @@ return {
   {
     "numToStr/Comment.nvim",
     config = function()
+      local U = require("Comment.utils")
+      local ft = require("Comment.ft")
+
+      -- Comment.nvim's treesitter-based resolution (Comment.ft.calculate) breaks on
+      -- Neovim 0.12 for filetypes whose parser isn't installed (e.g. zig), so even
+      -- line comments fail with "[Comment.nvim] nil". This pre_hook resolves the
+      -- commentstring from the plugin's filetype table (falling back to Neovim's
+      -- native 'commentstring'), bypassing that path. For block comments in languages
+      -- without block syntax (zig), it falls back to the line commentstring instead of
+      -- erroring. Trade-off: embedded-language detection (e.g. JS inside HTML) is
+      -- skipped in favour of the top-level filetype.
+      local function resolve_commentstring(ctx)
+        local filetype = vim.bo.filetype
+        local line = ft.get(filetype, U.ctype.linewise) or vim.bo.commentstring
+        local block = ft.get(filetype, U.ctype.blockwise)
+        if ctx.ctype == U.ctype.blockwise then
+          return block or line
+        end
+        return line
+      end
+
       local sysname = vim.loop.os_uname().sysname
       sysname = string.lower(sysname)
       sysname = string.sub(sysname, 1, 3)
       local is_windows = sysname == "win"
       if is_windows then
         require("Comment").setup({
+          pre_hook = resolve_commentstring,
           toggler = {
             line = "<C-_>",
           },
@@ -62,6 +86,7 @@ return {
         })
       else
         require("Comment").setup({
+          pre_hook = resolve_commentstring,
           toggler = {
             line = "<C-/>",
             block = "<C-?>",
@@ -88,6 +113,15 @@ return {
   "L3MON4D3/LuaSnip",
   "rafamadriz/friendly-snippets",
   "marilari88/twoslash-queries.nvim",
+
+  -- AI assistant (configured in after/plugin/codecompanion.lua)
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+  },
 
   {
     "stevearc/oil.nvim",
