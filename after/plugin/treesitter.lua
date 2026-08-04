@@ -2,13 +2,22 @@ require("nvim-treesitter.install").install({
   "vimdoc",
   "javascript",
   "typescript",
+  "svelte",
+  "html",
+  "css",
   "c",
   "lua",
   "rust",
   "cpp",
 })
 
--- Highlight is built-in via vim.treesitter in Neovim 0.11+
+-- Parser installation and highlighting are separate in Neovim's native API.
+-- Start highlighting for every filetype that has an installed parser.
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(args)
+    pcall(vim.treesitter.start, args.buf)
+  end,
+})
 
 require("treesitter-context").setup({
   enable = true,

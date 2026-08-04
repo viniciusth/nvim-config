@@ -30,7 +30,7 @@ autocmd({ "BufWritePre" }, {
     group = formattingGroup,
     pattern = { "*.js", "*.ts", "*.jsx", "*.tsx" },
     callback = function ()
-        vim.cmd("EslintFixAll")
+        -- vim.cmd("EslintFixAll")
     end,
 })
 
@@ -38,10 +38,10 @@ autocmd({ "BufWritePost" }, {
     group = formattingGroup,
     pattern = { "*.js", "*.ts", "*.jsx", "*.tsx" },
     callback = function ()
-        local path = vim.api.nvim_buf_get_name(0)
-        local command_args = { "pnpm", "prettier", "--write", path }
-        vim.system(command_args, {}):wait()
-        vim.cmd("edit");
+        -- local path = vim.api.nvim_buf_get_name(0)
+        -- local command_args = { "pnpm", "prettier", "--write", path }
+        -- vim.system(command_args, {}):wait()
+        -- vim.cmd("edit");
     end,
 })
 

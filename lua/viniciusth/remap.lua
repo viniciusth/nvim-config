@@ -37,7 +37,7 @@ autocmd("BufEnter", {
         local path = vim.api.nvim_buf_get_name(0)
         vim.keymap.set({ "n", "v" }, "<leader>f", function()
             vim.cmd("silent !black " .. path)
-        end)
+        end, { buffer = 0 })
     end,
 })
 
@@ -45,13 +45,12 @@ autocmd("BufEnter", {
 local viniciusth_ihatets = vim.api.nvim_create_augroup("viniciusth_ihatets", {})
 autocmd("BufEnter", {
     group = viniciusth_ihatets,
-    pattern = "*.ts,*.tsx,*.js,*.jsx",
+    pattern = "*.ts,*.tsx,*.js,*.jsx,*.svelte",
     callback = function()
         local path = vim.api.nvim_buf_get_name(0)
         vim.keymap.set({ "n", "v" }, "<leader>f", function()
-            vim.cmd("silent !yarn prettier --write " .. path)
-            vim.cmd("silent !pnpm prettier --write " .. path)
-        end)
+            vim.cmd("silent !npm exec prettier -- --write " .. path)
+        end, { buffer = 0 })
     end,
 })
 vim.keymap.set({ "n", "v" }, "<leader>f", vim.lsp.buf.format)
@@ -107,7 +106,7 @@ autocmd("BufEnter", {
         vim.keymap.set({ "n", "v" }, "<leader>f", function()
             vim.cmd("silent !buf format -w " .. path)
             vim.cmd("e!")
-        end)
+        end, { buffer = 0 })
     end,
 })
 

@@ -124,6 +124,11 @@ return {
   },
 
   {
+    "nickjvandyke/opencode.nvim",
+    version = "*",
+  },
+
+  {
     "stevearc/oil.nvim",
     config = function()
       require("oil").setup({

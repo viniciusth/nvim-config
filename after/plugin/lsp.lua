@@ -66,56 +66,64 @@ require('mason-lspconfig').setup({
         'pyright',
         'typos_lsp',
         'ts_ls',
+        'svelte',
     },
-    handlers = {
-        function(server_name)
-            require('lspconfig')[server_name].setup({
-                capabilities = capabilities,
-            })
-        end,
-        typos_lsp = function()
-            require('lspconfig').typos_lsp.setup({
-                capabilities = capabilities,
-                init_options = {
-                    diagnosticSeverity = "Information",
-                    logLevel = "Information",
-                }
-            })
-        end,
-        ts_ls = function()
-            require('lspconfig').ts_ls.setup({
-                on_attach = function(client, bufnr)
-                    client.server_capabilities.documentFormattingProvider = false
-                    client.server_capabilities.documentRangeFormattingProvider = false
+    -- NOTE: mason-lspconfig v2 dropped the v1 `handlers` API. Servers are
+    -- auto-enabled via `vim.lsp.enable`; per-server options go through
+    -- `vim.lsp.config`, and the wildcard below replaces the old default handler.
+})
 
-                    require("twoslash-queries").attach(client, bufnr)
-                    vim.api.nvim_set_keymap('n', "<leader>K", "<cmd>TwoslashQueriesInspect<CR>", {})
+-- Defaults for every server (replaces the v1 default handler).
+vim.lsp.config('*', {
+    capabilities = capabilities,
+})
 
-                    if client.server_capabilities.workspace then
-                        client.server_capabilities.workspace.fileOperations = nil
-                    end
-                end,
-                capabilities = capabilities,
-                init_options = {
-                    maxTsServerMemory = 8192,
-                    preferences = {
-                        disableAutomaticTypingAcquisition = true,
-                    },
-                    watchOptions = {
-                        watchFile = "useFsEvents",
-                        watchDirectory = "useFsEvents",
-                        fallbackPolling = "dynamicPriority",
-                        synchronousWatchDirectory = true,
-                        excludeDirectories = { "**/node_modules", "**/.git", "**/dist", "**/build" },
-                    },
-                },
-                cmd = { "node", "--max-old-space-size=8192", vim.fn.exepath("typescript-language-server"), "--stdio" },
-                flags = {
-                    debounce_text_changes = 300,
-                    allow_incremental_sync = true,
-                },
-            })
-        end,
+vim.lsp.config('rust_analyzer', {
+    settings = {
+        ['rust-analyzer'] = {
+            cargo = {
+                features = { 'profiling' },
+            },
+        },
+    },
+})
+
+vim.lsp.config('typos_lsp', {
+    init_options = {
+        diagnosticSeverity = "Information",
+        logLevel = "Information",
+    },
+})
+
+vim.lsp.config('ts_ls', {
+    cmd = { "node", "--max-old-space-size=8192", vim.fn.exepath("typescript-language-server"), "--stdio" },
+    on_attach = function(client, bufnr)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+
+        require("twoslash-queries").attach(client, bufnr)
+        vim.api.nvim_set_keymap('n', "<leader>K", "<cmd>TwoslashQueriesInspect<CR>", {})
+
+        if client.server_capabilities.workspace then
+            client.server_capabilities.workspace.fileOperations = nil
+        end
+    end,
+    init_options = {
+        maxTsServerMemory = 8192,
+        preferences = {
+            disableAutomaticTypingAcquisition = true,
+        },
+        watchOptions = {
+            watchFile = "useFsEvents",
+            watchDirectory = "useFsEvents",
+            fallbackPolling = "dynamicPriority",
+            synchronousWatchDirectory = true,
+            excludeDirectories = { "**/node_modules", "**/.git", "**/dist", "**/build" },
+        },
+    },
+    flags = {
+        debounce_text_changes = 300,
+        allow_incremental_sync = true,
     },
 })
 
