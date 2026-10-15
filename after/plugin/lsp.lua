@@ -67,6 +67,7 @@ require('mason-lspconfig').setup({
         'typos_lsp',
         'ts_ls',
         'svelte',
+        'eslint',
     },
     -- NOTE: mason-lspconfig v2 dropped the v1 `handlers` API. Servers are
     -- auto-enabled via `vim.lsp.enable`; per-server options go through

@@ -30,7 +30,9 @@ autocmd({ "BufWritePre" }, {
     group = formattingGroup,
     pattern = { "*.js", "*.ts", "*.jsx", "*.tsx" },
     callback = function ()
-        -- vim.cmd("EslintFixAll")
+        if vim.fn.exists(":LspEslintFixAll") == 2 then
+            vim.cmd("LspEslintFixAll")
+        end
     end,
 })
 
