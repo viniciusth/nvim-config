@@ -178,6 +178,26 @@ return {
     keys = {
       { "<leader>tp", "<cmd>TypstPreviewToggle<cr>", ft = "typst", desc = "Toggle typst preview" },
     },
+    init = function()
+      -- The plugin only follows on line changes, so jumping into an included
+      -- file doesn't scroll the preview. Sync on entering any typst buffer too.
+      -- On a buffer's first open BufEnter fires before it's read and hooked up
+      -- by the plugin, so give that a moment to settle first.
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "*.typ",
+        callback = function(ev)
+          local tp = package.loaded["typst-preview"]
+          if not (tp and tp.get_follow_cursor()) then
+            return
+          end
+          vim.defer_fn(function()
+            if vim.api.nvim_get_current_buf() == ev.buf then
+              tp.sync_with_cursor()
+            end
+          end, 200)
+        end,
+      })
+    end,
   },
 
   {
