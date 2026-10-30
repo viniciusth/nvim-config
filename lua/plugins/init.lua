@@ -167,6 +167,19 @@ return {
     end,
   },
 
+  -- Live browser preview for typst, using brew-installed tinymist and websocat
+  {
+    "chomosuke/typst-preview.nvim",
+    ft = "typst",
+    version = "1.*",
+    opts = {
+      dependencies_bin = { ["tinymist"] = "tinymist", ["websocat"] = "websocat" },
+    },
+    keys = {
+      { "<leader>tp", "<cmd>TypstPreviewToggle<cr>", ft = "typst", desc = "Toggle typst preview" },
+    },
+  },
+
   {
     "j-hui/fidget.nvim",
     opts = {},
