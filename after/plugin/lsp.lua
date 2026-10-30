@@ -138,6 +138,14 @@ require('lspconfig').zls.setup({
     capabilities = capabilities,
 })
 
+-- Typst (tinymist installed via brew).
+vim.lsp.config('tinymist', {
+    settings = {
+        formatterMode = "typstyle",
+    },
+})
+vim.lsp.enable('tinymist')
+
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 

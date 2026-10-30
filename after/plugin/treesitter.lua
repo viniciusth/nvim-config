@@ -9,6 +9,7 @@ require("nvim-treesitter.install").install({
   "lua",
   "rust",
   "cpp",
+  "typst",
 })
 
 -- Parser installation and highlighting are separate in Neovim's native API.
